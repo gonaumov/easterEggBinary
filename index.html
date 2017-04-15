@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Easter Egg</title>
+    <style>
+        #output {
+            margin: 0px auto;
+            text-align: center;
+            font-size: 300%;
+            font-family: "Arial Black";
+            text-transform: uppercase;
+            color: deeppink;
+        }
+        p {
+			margin: 0;
+            padding-left: 40%;
+            text-align: left;
+		}
+        .theEgg {
+            -webkit-animation: hideTheEgg 3s;
+            animation: hideTheEgg 3s;
+        }
+        @-webkit-keyframes hideTheEgg {
+            from {opacity: 1;}
+            to {opacity: 0;}
+        }
+
+        @keyframes hideTheEgg {
+            from {opacity: 1;}
+            to {opacity: 0;}
+        }
+    </style>
+</head>
+<body>
+    <article id="output">
+        <img src="input.jpeg" class="theEgg">
+    </article>
+    <script>
+        var theEggImage = document.querySelector('.theEgg'),
+                out = document.getElementById('output');
+        ['animationend',
+            'webkitAnimationEnd'].forEach(function (listenerType) {
+            theEggImage.addEventListener(listenerType, function () {
+                var result = ["01100101",
+                    "01100001",
+                    "01110011",
+                    "01110100",
+                    "01100101",
+                    "01110010",
+                    "00100000",
+                    "01100101",
+                    "01100111",
+                    "01100111"].reduce(function (acc, val) {
+                        var resultString = String.fromCharCode(parseInt(val, 2));
+                        acc.result = acc.result.concat(resultString);
+                        acc.wholeResult = acc.wholeResult.concat('<p>' + val + ': ' + resultString + '</p>');
+                        return acc;
+                }, {result: '', wholeResult: ''});
+                out.innerHTML = [
+                    result.result,
+                    '<hr/>',
+                    result.wholeResult,
+                ].join('');
+            });
+        });
+    </script>
+</body>
+</html>
+
